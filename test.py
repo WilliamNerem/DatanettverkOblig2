@@ -5,7 +5,8 @@ BASE = "http://127.0.0.1:5000/"
 
 data = [{"name": "Gunnar", "rooms": "Yellow, Green"},
         {"name": "Ole", "rooms": "Purple, Pink"},
-        {"name": "Kongle", "rooms": "Cyan"}]
+        {"name": "Kongle", "rooms": "Cyan"},
+        {"name": "Maren", "rooms": "Black"}]
 
 for i in range(len(data)):
     response = requests.put(BASE + "bots/" + str(i), data[i])
