@@ -56,13 +56,20 @@ def addroom():
         room = RoomModel(room_id=room_id.room_id, roomname=name)
         db.session.add(room)
         db.session.commit()
-        return render_template('index.html', roomvalues=RoomModel.query.all())
+        return render_template('index.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all())
     else: return render_template('index.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all())
     
 @app.route("/api/room/<int:room_id>", methods=['GET'])
 def getroom(room_id):
     return render_template('index.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all())
     
+@app.route("/api/roomdelete/<int:room_id>")
+def deleteroom(room_id):
+    try:
+        room = RoomModel.query.filter_by(room_id=room_id).delete()
+        db.session.commit()
+        return render_template('index.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all())
+    except: abort(404, message="Room ID is not valid")
 
 if __name__ == "__main__":
     app.run(debug=True)
