@@ -19,14 +19,28 @@ db.drop_all()
 db.create_all()
 
 @app.route("/", methods=['GET', 'POST'])
+def index():
+    return render_template('index.html', values=BotModel.query.all())
+
+@app.route("/api/users", methods=['GET', 'POST'])
 def test():
     if request.method == 'POST':
-        bot = BotModel(name="Yolo", rooms="Black")
+        name=request.form['name']
+        rooms=request.form['rooms']
+        bot_id=BotModel(name=name, rooms=rooms)
+        bot = BotModel(bot_id=bot_id.bot_id, name=name, rooms=rooms)
         db.session.add(bot)
         db.session.commit()
         return render_template('index.html', values=BotModel.query.all())
     else: return render_template('index.html', values=BotModel.query.all())
 
+@app.route("/api/user/<int:user_id>")
+def delete(user_id):
+    try:
+        bot = BotModel.query.filter_by(bot_id=user_id).delete()
+        db.session.commit()
+        return render_template('index.html', values=BotModel.query.all())
+    except: abort(404, message="Bot ID is not valid")
 
 bot_put_args = reqparse.RequestParser() # Forsikrer at det passer med hvordan man vil parse som defineres senere
 bot_put_args.add_argument("name", type=str, help="Name of the bot is required", required=True) # Argumentet må være med hvis ikke displayes Help som er feilmelding

@@ -10,14 +10,19 @@
     <h2>
         Users
     </h2>
-    <form action="/" method="POST">
-        <input type="text" name="content" id="content">
+    <form action="/api/users" method="POST">
+        <input type="text" name="name" id="name">
+        <input type="text" name="rooms" id="rooms">
         <input type="submit" value="Add user">
     </form>
-    {% for item in values %}
-
-        <p>{{item.name}}, {{item.rooms}}</p>
-
-    {% endfor %}
+    <table>
+        <tr>
+            
+            <th>ID</th><th>NAME</th><th>ROOMS</th><th>DELETE</th>
+        </tr>
+        {% for item in values %}
+            <tr><th>{{item.bot_id}}</th><th>{{item.name}}</th><th>{{item.rooms}}</th><th><form action="/api/user/{{item.bot_id}}"><input type="submit" value="Delete"></form></th></tr>
+        {% endfor %}    
+    </table>
 </body>
 </html>
