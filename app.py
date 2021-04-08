@@ -75,5 +75,9 @@ def deleteroom(room_id):
         return render_template('index.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all())
     except: abort(404, message="Room ID is not valid")
 
+@app.route("/api/room/messages", methods=['GET', 'POST'])
+def message():
+    return render_template('index.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all())
+
 if __name__ == "__main__":
     app.run(debug=True)
