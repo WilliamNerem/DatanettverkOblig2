@@ -1,4 +1,4 @@
-from flask import Flask, request
+from flask import Flask, request, render_template
 from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
 from flask_sqlalchemy import SQLAlchemy
 
@@ -17,6 +17,16 @@ class BotModel(db.Model):
     
 db.drop_all()
 db.create_all()
+
+@app.route("/", methods=['GET', 'POST'])
+def test():
+    if request.method == 'POST':
+        bot = BotModel(name="Yolo", rooms="Black")
+        db.session.add(bot)
+        db.session.commit()
+        return render_template('index.html', values=BotModel.query.all())
+    else: return render_template('index.html', values=BotModel.query.all())
+
 
 bot_put_args = reqparse.RequestParser() # Forsikrer at det passer med hvordan man vil parse som defineres senere
 bot_put_args.add_argument("name", type=str, help="Name of the bot is required", required=True) # Argumentet må være med hvis ikke displayes Help som er feilmelding
@@ -45,9 +55,9 @@ class Bot(Resource): # Method names are matching the http requests such as get, 
         return bots[bot_id]
 
     @marshal_with(resource_fields)
-    def put(self, bot_id):
+    def put(self):
         args = bot_put_args.parse_args()
-        bot = BotModel(bot_id=bot_id, name=args['name'], rooms=args['rooms'])
+        bot = BotModel(name=args['name'], rooms=args['rooms'])
         db.session.add(bot)
         db.session.commit()
         return bot, 201  # 201 is created, 200 is okey
