@@ -11,7 +11,7 @@
 </head>
 
 <body>
-    <div class="container">
+    <div class="container mt-5">
         <div class="row">
             <div class="col-sm">
                 <h2>
@@ -38,8 +38,9 @@
                             <td>{{item.user_id}}</td>
                             <td>{{item.username}}</td>
                             <td>
-                                <form action="/api/user/{{item.user_id}}"><button class="btn btn-danger"
-                                        type="submit">Delete</button></form>
+                                <form action="/api/user/{{item.user_id}}">
+                                    <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+                                </form>    
                             </td>
                         </tr>
                     </tbody>
@@ -71,8 +72,9 @@
                             <td>{{item.room_id}}</td>
                             <td>{{item.roomname}}</td>
                             <td>
-                                <form action="/api/room/{{item.room_id}}"><button class="btn btn-danger"
-                                        type="submit">Delete</button></form>
+                                <form action="/api/room/{{item.room_id}}">
+                                    <button class="btn btn-info btn-sm" type="submit">Join</button>
+                                </form>
                             </td>
                         </tr>
                     </tbody>
