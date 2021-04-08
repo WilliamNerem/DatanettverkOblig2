@@ -12,18 +12,14 @@
 
 <body>
     <div class="container mt-5">
+        <form action="/">
+            <button class="btn btn-primary btn-sm" type="submit">Logout</button>
+        </form>  
         <div class="row">
             <div class="col-sm">
                 <h2>
                     Users
                 </h2>
-                <form action="/api/users" method="POST">
-                    <div class="form-group">
-                        <label for="username">Username</label>
-                        <input type="text" class="form-control" name="username" id="username" placeholder="Username">
-                    </div>
-                    <button class="btn btn-primary" type="submit">Add user</button>
-                </form>
                 <table class="table table-striped">
                     <thead class="thead-light">
                         <tr>

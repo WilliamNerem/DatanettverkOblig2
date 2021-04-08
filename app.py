@@ -27,7 +27,7 @@ db.create_all()
 
 @app.route("/", methods=['GET', 'POST'])
 def index():
-    return render_template('index.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all())
+    return render_template('login.html', uservalues=UserModel.query.all())
 
 @app.route("/api/users", methods=['GET', 'POST'])
 def adduser():
@@ -37,8 +37,12 @@ def adduser():
         user = UserModel(user_id=user_id.user_id, username=name)
         db.session.add(user)
         db.session.commit()
-        return render_template('index.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all())
-    else: return render_template('index.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all())
+        return render_template('login.html', uservalues=UserModel.query.all())
+    else: return render_template('login.html', uservalues=UserModel.query.all())
+
+@app.route("/api/userlogin")
+def login():
+    return render_template('index.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all())
 
 @app.route("/api/user/<int:user_id>")
 def deleteuser(user_id):
