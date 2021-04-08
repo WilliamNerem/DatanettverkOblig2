@@ -33,8 +33,8 @@ def index():
 def adduser():
     if request.method == 'POST':
         name=request.form['username']
-        user_id=UserModel(name=name)
-        user = UserModel(user_id=user_id.user_id, name=name)
+        user_id=UserModel(username=name)
+        user = UserModel(user_id=user_id.user_id, username=name)
         db.session.add(user)
         db.session.commit()
         return render_template('index.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all())
@@ -46,17 +46,17 @@ def deleteuser(user_id):
         user = UserModel.query.filter_by(user_id=user_id).delete()
         db.session.commit()
         return render_template('index.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all())
-    except: abort(404, message="Bot ID is not valid")
+    except: abort(404, message="User ID is not valid")
 
 @app.route("/api/rooms", methods=['GET', 'POST'])
 def addroom():
     if request.method == 'POST':
         name=request.form['roomname']
-        room_id=RoomModel(name=name)
-        room = RoomModel(room_id=room_id.room_id, name=name)
+        room_id=RoomModel(roomname=name)
+        room = RoomModel(room_id=room_id.room_id, roomname=name)
         db.session.add(room)
         db.session.commit()
-        return render_template('index.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all())
+        return render_template('index.html', roomvalues=RoomModel.query.all())
     else: return render_template('index.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all())
     
 @app.route("/api/room/<int:room_id>", methods=['GET'])

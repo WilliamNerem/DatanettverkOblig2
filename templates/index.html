@@ -19,24 +19,24 @@
                 </h2>
                 <form action="/api/users" method="POST">
                     <div class="form-group">
-                        <label for="name">Navn</label>
-                        <input type="text" class="form-control" name="name" id="name" placeholder="Navn">
+                        <label for="username">Username</label>
+                        <input type="text" class="form-control" name="username" id="username" placeholder="Username">
                     </div>
                     <button class="btn btn-primary" type="submit">Add user</button>
                 </form>
                 <table class="table table-striped">
                     <thead class="thead-light">
                         <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">NAME</th>
+                            <th scope="col">USER ID</th>
+                            <th scope="col">USERNAME</th>
                             <th scope="col">DELETE</th>
                         </tr>
                     </thead>
-                    {% for item in values %}
+                    {% for item in uservalues %}
                     <tbody>
                         <tr>
                             <td>{{item.user_id}}</td>
-                            <td>{{item.name}}</td>
+                            <td>{{item.username}}</td>
                             <td>
                                 <form action="/api/user/{{item.user_id}}"><button class="btn btn-danger"
                                         type="submit">Delete</button></form>
@@ -50,28 +50,28 @@
                 <h2>
                     Rooms
                 </h2>
-                <form action="/api/users" method="POST">
+                <form action="/api/rooms" method="POST">
                     <div class="form-group">
-                        <label for="name">Navn</label>
-                        <input type="text" class="form-control" name="name" id="name" placeholder="Navn">
+                        <label for="roomname">Roomname</label>
+                        <input type="text" class="form-control" name="roomname" id="roomname" placeholder="Roomname">
                     </div>
-                    <button class="btn btn-primary" type="submit">Add user</button>
+                    <button class="btn btn-primary" type="submit">Add room</button>
                 </form>
                 <table class="table table-striped">
                     <thead class="thead-light">
                         <tr>
-                            <th scope="col">ID</th>
-                            <th scope="col">NAME</th>
+                            <th scope="col">ROOM ID</th>
+                            <th scope="col">ROOMNAME</th>
                             <th scope="col">DELETE</th>
                         </tr>
                     </thead>
-                    {% for item in values %}
+                    {% for item in roomvalues %}
                     <tbody>
                         <tr>
-                            <td>{{item.user_id}}</td>
-                            <td>{{item.name}}</td>
+                            <td>{{item.room_id}}</td>
+                            <td>{{item.roomname}}</td>
                             <td>
-                                <form action="/api/user/{{item.user_id}}"><button class="btn btn-danger"
+                                <form action="/api/room/{{item.room_id}}"><button class="btn btn-danger"
                                         type="submit">Delete</button></form>
                             </td>
                         </tr>
