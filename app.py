@@ -109,8 +109,7 @@ def roomusers(room_id):
     nestedList = listRoomUser[a]
     nestedList.append(loggedin)
     print(listRoomUser, file=sys.stderr)
-    return render_template('room.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), listUsers=nestedList)
-    return render_template('room.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), messages=listOfMessages)
+    return render_template('room.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), listUsers=nestedList, messages=listOfMessages)
 
 if __name__ == "__main__":
     app.run(debug=True)
