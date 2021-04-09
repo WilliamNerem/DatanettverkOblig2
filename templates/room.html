@@ -24,6 +24,13 @@
         </button>
     </form>
     <div class="container">
+        {% for item in listUsers %}
+        {% for i in uservalues %}
+        {% if item == i.user_id %}
+        <p>{{i.username}}</p>
+        {% endif %}
+        {% endfor %}
+        {% endfor %}
         <h2>
             Chatroom
         </h2>
@@ -60,7 +67,7 @@
         </div>
         <div class="row">
             <form action="/api/room/messages" method="POST" class="w-100">
-                <div class="col-8 input-group mb-3">
+                <div class="input-group mb-3">
                     <input type="text" name="message" class="form-control" placeholder="Type a message..."
                         aria-label="Message" aria-describedby="basic-addon2">
                     <div class="input-group-append">
