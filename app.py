@@ -51,7 +51,10 @@ def deleteuser(user_id):
     try:
         user = UserModel.query.filter_by(user_id=user_id).delete()
         db.session.commit()
-        return render_template('index.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), messages=listOfMessages)
+        if not UserModel.query.all():
+            return render_template('login.html', uservalues=UserModel.query.all())
+        else:
+            return render_template('index.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), messages=listOfMessages)
     except: abort(404, message="User ID is not valid")
 
 @app.route("/api/rooms", methods=['GET', 'POST'])
