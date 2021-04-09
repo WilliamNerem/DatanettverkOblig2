@@ -51,7 +51,7 @@ def adduser():
 def login(user_id):
     global loggedin
     loggedin = user_id
-    return render_template('index.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), messages=listOfMessages)
+    return render_template('index.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all())
 
 @app.route("/api/user/<int:user_id>")
 def deleteuser(user_id):
@@ -61,7 +61,7 @@ def deleteuser(user_id):
         if not UserModel.query.all():
             return render_template('login.html', uservalues=UserModel.query.all())
         else:
-            return render_template('index.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), messages=listOfMessages)
+            return render_template('index.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all())
     except: abort(404, message="User ID is not valid")
 
 @app.route("/api/rooms", methods=['GET', 'POST'])
@@ -74,8 +74,8 @@ def addroom():
         db.session.add(room)
         db.session.commit()
         listRoom.append(room.room_id)
-        return render_template('index.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), messages=listOfMessages)
-    else: return render_template('index.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), messages=listOfMessages)
+        return render_template('index.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all())
+    else: return render_template('index.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all())
     
 @app.route("/api/room/<int:room_id>", methods=['GET'])
 def getroom(room_id):
@@ -87,7 +87,7 @@ def deleteroom(room_id):
         listRoomUser.remove(room_id)
         room = RoomModel.query.filter_by(room_id=room_id).delete()
         db.session.commit()
-        return render_template('index.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), messages=listOfMessages)
+        return render_template('index.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all())
     except: abort(404, message="Room ID is not valid")
 
 @app.route("/api/room/messages", methods=['GET', 'POST'])
@@ -95,8 +95,8 @@ def message():
     if request.method == 'POST':
         inMessage=request.form['message']
         listOfMessages.append(inMessage)
-        return render_template('index.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), messages=listOfMessages, varMessage=inMessage)
-    return render_template('index.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), messages=listOfMessages)
+        return render_template('room.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), messages=listOfMessages, varMessage=inMessage)
+    return render_template('room.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), messages=listOfMessages)
 
 @app.route("/api/room/<int:room_id>/users", methods=['GET', 'POST'])
 def roomusers(room_id):
@@ -107,7 +107,7 @@ def roomusers(room_id):
     nestedList = listRoomUser[a]
     nestedList.append(loggedin)
     print(listRoomUser, file=sys.stderr)
-    return render_template('room.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all())
+    return render_template('room.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), messages=listOfMessages)
 
 if __name__ == "__main__":
     app.run(debug=True)
