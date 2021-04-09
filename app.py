@@ -34,7 +34,7 @@ loggedin = 'a'
 
 @app.route("/", methods=['GET', 'POST'])
 def index():
-    listOfMessages.clear()
+    #listOfMessages.clear()
     return render_template('login.html', uservalues=UserModel.query.all())
 
 @app.route("/goback", methods=['GET', 'POST'])
@@ -127,7 +127,7 @@ def message():
     if request.method == 'POST':
         inMessage=request.form['message']
         listOfMessages.append(inMessage)
-        return render_template('room.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), messages=listOfMessages, varMessage=inMessage, listUsers=nestedList, loggedin=loggedin)
+        return render_template('room.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), messages=listOfMessages, listUsers=nestedList, loggedin=loggedin)
     return render_template('room.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), messages=listOfMessages, listUsers=nestedList, loggedin=loggedin)
 
 @app.route("/api/room/<int:room_id>/users", methods=['GET', 'POST'])
