@@ -8,8 +8,11 @@ BASE = "http://127.0.0.1:5000/"
 
 urllib.request.urlopen(BASE + "api/users/" + name)
 urllib.request.urlopen(BASE + "api/rooms/" + roomname)
-for i in range(100):
+for i in range(10):
     try:
         urllib.request.urlopen(BASE + "api/room/" + str(i) + "/users")
     except:
         pass
+
+urllib.request.urlopen(BASE + "/api/room/messages/" + "Halla%20jeg%20vil%20ha%20deg%20Martin")
+
