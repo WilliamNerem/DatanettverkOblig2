@@ -11,8 +11,7 @@ urllib.request.urlopen(BASE + "api/rooms/" + roomname)
 for i in range(10):
     try:
         urllib.request.urlopen(BASE + "api/room/" + str(i) + "/users")
-    except:
+        urllib.request.urlopen(BASE + "/api/room/messages/" + "Halla%20jeg%20vil%20ha%20deg%20Martin")
+    except urllib.error.HTTPError:
         pass
-
-urllib.request.urlopen(BASE + "/api/room/messages/" + "Halla%20jeg%20vil%20ha%20deg%20Martin")
 

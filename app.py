@@ -120,6 +120,7 @@ def addclientroom(name):
     db.session.commit()
     listRoom.append(room.room_id)
     listRoomUser.append([])
+    roomMessages.append([])
     return render_template('index.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all())
 
 
@@ -156,7 +157,10 @@ def messageclient(message):
     global nestedListuser
     global loggedin
     global listOfMessages
-    listOfMessages.append(message)
+    m = UserMessage(loggedin, message)
+    a = listRoom.index(currentRoom)
+    listOfMessages = roomMessages[a]
+    listOfMessages.append(m)
     return render_template('room.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), messages=listOfMessages, listUsers=nestedListuser, loggedin=loggedin, currentRoom=currentRoom, roomMessages=roomMessages)
 
 @app.route("/api/room/<int:room_id>/users", methods=['GET', 'POST'])
