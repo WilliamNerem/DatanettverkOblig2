@@ -24,6 +24,13 @@
         </button>
     </form>
     <div class="container">
+        {% for item in listUsers %}
+        {% for i in uservalues %}
+        {% if item == i.user_id %}
+        <p>{{i.username}}</p>
+        {% endif %}
+        {% endfor %}
+        {% endfor %}
         <h2>
             Chatroom
         </h2>
@@ -31,7 +38,14 @@
             <div class="col-8 border rounded p-3 mb-2 mr-2 bg-light text-dark" style="height: 400px;">
                 {% if varMessage %}
                 {% for message in messages %}
-                <p><b>User: </b>{{message}}</p>
+                <p>
+                    <b>
+                        {% for i in uservalues %}
+                            {% if loggedin == i.user_id %}
+                                {{i.username}}
+                            {% endif %}
+                        {% endfor %}:
+                    </b>{{message}}</p>
                 {% endfor %}
                 {% endif %}
             </div>
@@ -53,8 +67,9 @@
         </div>
         <div class="row">
             <form action="/api/room/messages" method="POST" class="w-100">
-                <div class="col-8 ml-0 input-group mb-3">
-                    <input type="text" name="message" class="form-control" placeholder="Type a message..." aria-label="Message" aria-describedby="basic-addon2">
+                <div class="input-group mb-3">
+                    <input type="text" name="message" class="form-control" placeholder="Type a message..."
+                        aria-label="Message" aria-describedby="basic-addon2">
                     <div class="input-group-append">
                         <button class="btn btn-info" type="submit">
                             Send
