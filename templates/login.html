@@ -39,7 +39,7 @@
                             <td>{{item.user_id}}</td>
                             <td>{{item.username}}</td>
                             <td>
-                                <form action="/api/userlogin">
+                                <form action="/api/userlogin/{{item.user_id}}">
                                     <button class="btn btn-success btn-sm" type="submit">
                                         <img src="{{url_for('static', filename='baseline_login_white_24dp.png')}}" alt="Login PNG" />
                                         Login
