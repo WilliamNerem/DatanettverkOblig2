@@ -54,10 +54,12 @@ def adduser():
 
 @app.route("/api/users/<string:name>", methods=['GET', 'POST'])
 def addclientuser(name):
+    global loggedin
     user_id=UserModel(username=name)
     user = UserModel(user_id=user_id.user_id, username=name)
     db.session.add(user)
     db.session.commit()
+    loggedin = user_id
     return render_template('login.html', uservalues=UserModel.query.all())
 
 @app.route("/api/userlogin/<int:user_id>")
@@ -91,7 +93,20 @@ def addroom():
         listRoomUser.append([])
         return render_template('index.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all())
     else: return render_template('index.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all())
-    
+
+@app.route("/api/rooms/<string:name>", methods=['GET', 'POST'])
+def addclientroom(name):
+    global listRoom
+    global listRoomUser
+    room_id=RoomModel(roomname=name)
+    room = RoomModel(room_id=room_id.room_id, roomname=name)
+    db.session.add(room)
+    db.session.commit()
+    listRoom.append(room.room_id)
+    listRoomUser.append([])
+    return render_template('index.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all())
+
+
 @app.route("/api/room/<int:room_id>", methods=['GET'])
 def getroom(room_id):
     return render_template('room.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), messages=listOfMessages)
@@ -124,7 +139,7 @@ def roomusers(room_id):
     a = listRoom.index(room_id)
     nestedList = listRoomUser[a]
     nestedList.append(loggedin)
-    print(listRoomUser, file=sys.stderr)
+    #print(listRoomUser, file=sys.stderr)
     return render_template('room.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), listUsers=nestedList, messages=listOfMessages, loggedin=loggedin)
 
 if __name__ == "__main__":
