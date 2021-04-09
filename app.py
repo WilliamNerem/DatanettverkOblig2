@@ -25,12 +25,19 @@ class RoomModel(db.Model):
 db.drop_all()
 db.create_all()
 
+roomMessages = []
 listOfMessages = []
 
 listRoom = []
 listRoomUser = []
-nestedList = []
-loggedin = 'a'
+nestedListuser = []
+loggedin = ''
+currentRoom = ''
+
+class UserMessage:
+  def __init__(self, user_id, message):
+    self.user_id = user_id
+    self.message = message
 
 @app.route("/", methods=['GET', 'POST'])
 def index():
@@ -91,6 +98,7 @@ def addroom():
         db.session.commit()
         listRoom.append(room.room_id)
         listRoomUser.append([])
+        roomMessages.append([])
         return render_template('index.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all())
     else: return render_template('index.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all())
 
@@ -109,6 +117,7 @@ def addclientroom(name):
 
 @app.route("/api/room/<int:room_id>", methods=['GET'])
 def getroom(room_id):
+    currentRoom = room_id
     return render_template('room.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), messages=listOfMessages)
     
 @app.route("/api/roomdelete/<int:room_id>")
@@ -120,33 +129,41 @@ def deleteroom(room_id):
         return render_template('index.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all())
     except: abort(404, message="Room ID is not valid")
 
-@app.route("/api/room/messages", methods=['GET', 'POST'])
-def message():
-    global nestedList
+@app.route("/api/room/<int:room_id>/<int:user_id>/messages", methods=['GET', 'POST'])
+def message(room_id, user_id):
+    global nestedListuser
     global loggedin
+    global listOfMessages
     if request.method == 'POST':
         inMessage=request.form['message']
-        listOfMessages.append(inMessage)
-        return render_template('room.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), messages=listOfMessages, listUsers=nestedList, loggedin=loggedin)
-    return render_template('room.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), messages=listOfMessages, listUsers=nestedList, loggedin=loggedin)
+        m = UserMessage(user_id, inMessage)
+        a = listRoom.index(room_id)
+        listOfMessages = roomMessages[a]
+        listOfMessages.append(m)
+        print(roomMessages)
+        return render_template('room.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), messages=listOfMessages, listUsers=nestedListuser, loggedin=loggedin, currentRoom=currentRoom)
+    return render_template('room.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), messages=listOfMessages, listUsers=nestedListuser, loggedin=loggedin, currentRoom=currentRoom)
 
 @app.route("/api/room/messages/<string:message>", methods=['GET', 'POST'])
 def messageclient(message):
-    global nestedList
+    global nestedListuser
     global loggedin
+    global listOfMessages
     listOfMessages.append(message)
-    return render_template('room.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), messages=listOfMessages, listUsers=nestedList, loggedin=loggedin)
+    return render_template('room.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), messages=listOfMessages, listUsers=nestedListuser, loggedin=loggedin)
 
 @app.route("/api/room/<int:room_id>/users", methods=['GET', 'POST'])
 def roomusers(room_id):
     global listRoomUser
     global listRoom
     global loggedin
-    global nestedList
+    global nestedListuser
+    global currentRoom
+    currentRoom = room_id
     a = listRoom.index(room_id)
-    nestedList = listRoomUser[a]
-    nestedList.append(loggedin)
-    return render_template('room.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), listUsers=nestedList, messages=listOfMessages, loggedin=loggedin)
+    nestedListuser = listRoomUser[a]
+    nestedListuser.append(loggedin)
+    return render_template('room.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), listUsers=nestedListuser, messages=listOfMessages, loggedin=loggedin)
 
 if __name__ == "__main__":
     app.run(debug=True)

@@ -59,18 +59,26 @@
             </div>
         </div>
         <div class="row">
-            <form action="/api/room/messages" method="POST" class="w-100">
-                <div class="col-8 input-group mb-3">
-                    <input type="text" name="message" class="form-control" placeholder="Type a message..."
-                        aria-label="Message" aria-describedby="basic-addon2">
-                    <div class="input-group-append">
-                        <button class="btn btn-info" type="submit">
-                            Send
-                            <img src="{{url_for('static', filename='baseline_send_white_24dp.png')}}" alt="Send PNG" />
-                        </button>
-                    </div>
-                </div>
-            </form>
+            <!-- {% for i in roomvalues %}
+                {% if currentRoom == i.room_id %}
+                    {% for item in listUsers %}
+                        {% if loggedin == item.user_id %}-->
+                            <form action="/api/room/{{loggedin}}/{{currentRoom}}/messages" method="POST" class="w-100">
+                                <div class="col-8 input-group mb-3">
+                                    <input type="text" name="message" class="form-control" placeholder="Type a message..."
+                                        aria-label="Message" aria-describedby="basic-addon2">
+                                    <div class="input-group-append">
+                                        <button class="btn btn-info" type="submit">
+                                            Send
+                                            <img src="{{url_for('static', filename='baseline_send_white_24dp.png')}}" alt="Send PNG" />
+                                        </button>
+                                    </div>
+                                </div>
+                            </form>
+                        <!--{% endif %}
+                    {% endfor %}
+                {% endif %}
+            {% endfor %}-->
         </div>
     </div>
 </body>
