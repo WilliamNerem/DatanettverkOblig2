@@ -11,41 +11,49 @@
 </head>
 
 <body>
-    <form action="/">
+    <form action="/" class="d-inline">
         <button class="btn btn-secondary m-2" type="submit">
             <img src="{{url_for('static', filename='baseline_logout_white_24dp.png')}}" alt="Logout PNG" />
             Logout
         </button>
     </form>
-    <form action="/goback">
-        <button class="btn btn-success btn-sm" type="submit">
-            <img src="{{url_for('static', filename='baseline_login_white_24dp.png')}}" alt="Back PNG" />
+    <form action="/goback" class="d-inline">
+        <button class="btn btn-dark m-2" type="submit">
+            <img src="{{url_for('static', filename='baseline_arrow_back_white_24dp.png')}}" alt="Back PNG" />
             Go back
         </button>
     </form>
     <div class="container">
-        {% for item in listUsers %}
-            {% for i in uservalues %}
-                {% if item == i.user_id %}
-                    <p>{{i.username}}</p>
-                {% endif %}
-            {% endfor %}
-        {% endfor %}
         <h2>
             Chatroom
         </h2>
         <div class="row">
-            <div class="col-sm border rounded p-3 mb-2 bg-light text-dark" style="height: 400px;">
+            <div class="col-8 border rounded p-3 mb-2 mr-2 bg-light text-dark" style="height: 400px;">
                 {% if varMessage %}
                 {% for message in messages %}
-                    <p><b>User: </b>{{message}}</p>
+                <p><b>User: </b>{{message}}</p>
                 {% endfor %}
                 {% endif %}
+            </div>
+            <div class="col-3 border rounded p-3 mb-2 bg-light text-dark">
+                <h5>
+                    Users in this room:
+                </h5>
+                {% for item in listUsers %}
+                    {% for i in uservalues %}
+                        {% if item == i.user_id %}
+                            <div class="rounded p-3 w-100 bg-white mb-3" style="box-shadow: 0 0 8px 1px #d6dce2;">
+                                <img src="{{url_for('static', filename='baseline_account_circle_black_24dp.png')}}" alt="Account PNG" />
+                                {{i.username}}
+                            </div>
+                        {% endif %}
+                    {% endfor %}
+                {% endfor %}
             </div>
         </div>
         <div class="row">
             <form action="/api/room/messages" method="POST" class="w-100">
-                <div class="input-group mb-3">
+                <div class="col-8 ml-0 input-group mb-3">
                     <input type="text" name="message" class="form-control" placeholder="Type a message..." aria-label="Message" aria-describedby="basic-addon2">
                     <div class="input-group-append">
                         <button class="btn btn-info" type="submit">
