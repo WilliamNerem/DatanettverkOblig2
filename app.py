@@ -36,6 +36,10 @@ def index():
     listOfMessages.clear()
     return render_template('login.html', uservalues=UserModel.query.all())
 
+@app.route("/goback", methods=['GET', 'POST'])
+def index():
+    return render_template('index.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all())
+
 @app.route("/api/users", methods=['GET', 'POST'])
 def adduser():
     if request.method == 'POST':

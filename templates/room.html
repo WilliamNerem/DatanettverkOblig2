@@ -17,6 +17,12 @@
             Logout
         </button>
     </form>
+    <form action="/goback">
+        <button class="btn btn-success btn-sm" type="submit">
+            <img src="{{url_for('static', filename='baseline_login_white_24dp.png')}}" alt="Back PNG" />
+            Go back
+        </button>
+    </form>
     <div class="container">
         {% for item in listUsers %}
             {% for i in uservalues %}
