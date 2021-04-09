@@ -67,6 +67,7 @@
                             <th scope="col">ROOM ID</th>
                             <th scope="col">ROOMNAME</th>
                             <th scope="col">VIEW</th>
+                            <th scope="col">JOIN</th>
                             <th scope="col">DELETE</th>
                         </tr>
                     </thead>
@@ -78,6 +79,11 @@
                             <td>
                                 <form action="/api/room/{{item.room_id}}">
                                     <button class="btn btn-info btn-sm" type="submit">View</button>
+                                </form>
+                            </td>
+                            <td>
+                                <form action="/api/room/{{item.room_id}}/users">
+                                    <button class="btn btn-info btn-sm" type="submit">Join</button>
                                 </form>
                             </td>
                             <td>

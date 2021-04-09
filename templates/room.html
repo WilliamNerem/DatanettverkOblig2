@@ -16,6 +16,13 @@
             <img src="{{url_for('static', filename='baseline_logout_white_24dp.png')}}" alt="Logout PNG" />
             Logout
         </button>
+        {% for item in listUsers %}
+            {% for i in uservalues %}
+                {% if item == i.user_id %}
+                    <p>{{i.username}}</p>
+                {% endif %}
+            {% endfor %}
+        {% endfor %}
         <h2>
         Chatroom
         </h2>
@@ -39,11 +46,6 @@
                 </div>
             </form>
         </div>
-        {% for item in roomvalues %}
-        <form action="/api/room/{{item.room_id}}/users">
-            <button class="btn btn-info btn-sm" type="submit">Join</button>
-        </form>
-        {% endfor %}
     </div>
 </body>
 

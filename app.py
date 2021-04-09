@@ -67,6 +67,7 @@ def deleteuser(user_id):
 @app.route("/api/rooms", methods=['GET', 'POST'])
 def addroom():
     global listRoom
+    global listRoomUser
     if request.method == 'POST':
         name=request.form['roomname']
         room_id=RoomModel(roomname=name)
@@ -74,6 +75,7 @@ def addroom():
         db.session.add(room)
         db.session.commit()
         listRoom.append(room.room_id)
+        listRoomUser.append([])
         return render_template('index.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), messages=listOfMessages)
     else: return render_template('index.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), messages=listOfMessages)
     
@@ -107,7 +109,7 @@ def roomusers(room_id):
     nestedList = listRoomUser[a]
     nestedList.append(loggedin)
     print(listRoomUser, file=sys.stderr)
-    return render_template('room.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all())
+    return render_template('room.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), listUsers=nestedList)
 
 if __name__ == "__main__":
     app.run(debug=True)
