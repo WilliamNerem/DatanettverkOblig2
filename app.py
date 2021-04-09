@@ -79,7 +79,7 @@ def addroom():
     
 @app.route("/api/room/<int:room_id>", methods=['GET'])
 def getroom(room_id):
-    return render_template('index.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), messages=listOfMessages)
+    return render_template('room.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), messages=listOfMessages)
     
 @app.route("/api/roomdelete/<int:room_id>")
 def deleteroom(room_id):
