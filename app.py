@@ -115,6 +115,7 @@ def addclientroom(name):
     global listRoom
     global listRoomUser
     room_id=RoomModel(roomname=name)
+    print(room_id.roomname)
     room = RoomModel(room_id=room_id.room_id, roomname=name)
     db.session.add(room)
     db.session.commit()
@@ -131,8 +132,15 @@ def getroom(room_id):
     
 @app.route("/api/roomdelete/<int:room_id>")
 def deleteroom(room_id):
+    global loggedin
     try:
-        listRoomUser.remove(room_id)
+        #nestedListuser = listRoomUser[a]
+        #if nestedListuser:
+            #nestedListuser.remove(loggedin)
+        a = listRoom.index(room_id)
+        del listRoomUser[a]
+        del listRoom[a]
+        del roomMessages[a]
         room = RoomModel.query.filter_by(room_id=room_id).delete()
         db.session.commit()
         return render_template('index.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all())
@@ -157,11 +165,14 @@ def messageclient(message):
     global nestedListuser
     global loggedin
     global listOfMessages
-    m = UserMessage(loggedin, message)
-    a = listRoom.index(currentRoom)
-    listOfMessages = roomMessages[a]
-    listOfMessages.append(m)
-    return render_template('room.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), messages=listOfMessages, listUsers=nestedListuser, loggedin=loggedin, currentRoom=currentRoom, roomMessages=roomMessages)
+    try:
+        m = UserMessage(loggedin, message)
+        a = listRoom.index(currentRoom)
+        listOfMessages = roomMessages[a]
+        listOfMessages.append(m)
+        return render_template('room.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), messages=listOfMessages, listUsers=nestedListuser, loggedin=loggedin, currentRoom=currentRoom, roomMessages=roomMessages)
+    except:
+        return render_template('room.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), messages=listOfMessages, listUsers=nestedListuser, loggedin=loggedin, currentRoom=currentRoom, roomMessages=roomMessages)
 
 @app.route("/api/room/<int:room_id>/users", methods=['GET', 'POST'])
 def roomusers(room_id):
@@ -170,11 +181,14 @@ def roomusers(room_id):
     global loggedin
     global nestedListuser
     global currentRoom
-    currentRoom = room_id
-    a = listRoom.index(room_id)
-    nestedListuser = listRoomUser[a]
-    nestedListuser.append(loggedin)
-    return render_template('room.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), listUsers=nestedListuser, messages=listOfMessages, loggedin=loggedin, currentRoom=currentRoom, roomMessages=roomMessages)
+    try:
+        currentRoom = room_id
+        a = listRoom.index(room_id)
+        nestedListuser = listRoomUser[a]
+        nestedListuser.append(loggedin)
+        return render_template('room.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), listUsers=nestedListuser, messages=listOfMessages, loggedin=loggedin, currentRoom=currentRoom, roomMessages=roomMessages)
+    except:
+        return render_template('room.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), listUsers=nestedListuser, messages=listOfMessages, loggedin=loggedin, currentRoom=currentRoom, roomMessages=roomMessages)
 
 if __name__ == "__main__":
     app.run(debug=True)
