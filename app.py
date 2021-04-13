@@ -37,15 +37,15 @@ loggedin = ''
 currentRoom = ''
 
 class UserMessage:
-  def __init__(self, user_id, message):
-    self.user_id = user_id
-    self.message = message
+    def __init__(self, user_id, message):
+        self.user_id = user_id
+        self.message = message
 
     def __repr__(self):
-        return "!!!!!!THIS IS THE USERMESSAGE OBJECT!!!!!!!!"
+        return f"Message(message = {message})"
 
     def __str__(self):
-        return "!!!!!!THIS IS THE USERMESSAGE OBJECT!!!!!!!!"
+        return f"Message(message = {message})"    
 
 @app.route("/", methods=['GET', 'POST'])
 def index():
@@ -202,7 +202,7 @@ def fetchMessages(room_id, user_id):
     for mes in listOfMessages:
         out+=str(mes.message)+"\n"
     print(out)
-    return out.object
+    return out
 
 if __name__ == "__main__":
     app.run(debug=True)
