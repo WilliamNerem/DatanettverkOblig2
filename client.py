@@ -3,6 +3,7 @@ import urllib.error
 import sys
 import bot
 import requests
+import json
 
 #Når user er i et chat room og en "bot" kjøres, fucker det seg opp. I tillegg vil man få error om man prøver å sende en ny mld
 
@@ -22,5 +23,8 @@ room_id = requests.get(BASE + "api/rooms/" + curbot.__name__ +"s%20room").json()
 for i in range(1, room_id+1):
     requests.post(BASE + "api/room/" + str(i) + "/users")
     requests.post(BASE + "api/room/" + curbot() +"/" + str(i) + "/" + str(user_id) + "/messages")
-    #message = requests.get(BASE + "api/room/" + str(i) + "/" + str(user_id) + "/fetch").json()
-    #print(message)
+    message = requests.get(BASE + "api/room/" + str(i) + "/" + str(user_id) + "/fetch").json()
+    out = "Messages in room " + str(i) + ":\n"
+    for i in message:
+        out += str(i) + "\n"
+    print(out)

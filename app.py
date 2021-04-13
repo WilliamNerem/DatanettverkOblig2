@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, jsonify
 from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
 from flask_sqlalchemy import SQLAlchemy
 import sys
@@ -27,7 +27,7 @@ db.create_all()
 
 roomMessages = []
 listOfMessages = []
-
+listOfUsers = []
 messages = []
 
 listRoom = []
@@ -67,6 +67,7 @@ def adduser():
         user = UserModel(user_id=user_id.user_id, username=name)
         db.session.add(user)
         db.session.commit()
+        listOfUsers.append(user.user_id)
         return render_template('login.html', uservalues=UserModel.query.all())
     else: return render_template('login.html', uservalues=UserModel.query.all())
 
@@ -78,6 +79,7 @@ def addclientuser(name):
     db.session.add(user)
     db.session.commit()
     loggedin = user.user_id
+    listOfUsers.append(user.user_id)
     return str(loggedin)
 
 @app.route("/api/userlogin/<int:user_id>")
@@ -91,6 +93,7 @@ def deleteuser(user_id):
     try:
         user = UserModel.query.filter_by(user_id=user_id).delete()
         db.session.commit()
+        listOfUsers.remove(user.user_id)
         return render_template('login.html', uservalues=UserModel.query.all())
     except: abort(404, message="User ID is not valid")
 
@@ -164,17 +167,19 @@ def message(room_id, user_id):
     global nestedListuser
     global loggedin
     global listOfMessages
-    try:
-        if request.method == 'POST':
-            inMessage=request.form['message']
-            m = UserMessage(user_id, inMessage)
-            a = listRoom.index(room_id)
-            listOfMessages = roomMessages[a]
-            listOfMessages.append(m)
+    if user_id in listOfUsers:
+        try:
+            if request.method == 'POST':
+                inMessage=request.form['message']
+                m = UserMessage(user_id, inMessage)
+                a = listRoom.index(room_id)
+                listOfMessages = roomMessages[a]
+                listOfMessages.append(m)
+                return render_template('chatroom.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), messages=listOfMessages, listUsers=nestedListuser, loggedin=loggedin, currentRoom=currentRoom, roomMessages=roomMessages)
             return render_template('chatroom.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), messages=listOfMessages, listUsers=nestedListuser, loggedin=loggedin, currentRoom=currentRoom, roomMessages=roomMessages)
-        return render_template('chatroom.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), messages=listOfMessages, listUsers=nestedListuser, loggedin=loggedin, currentRoom=currentRoom, roomMessages=roomMessages)
-    except:
-        return render_template('room.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), messages=listOfMessages, listUsers=nestedListuser, loggedin=loggedin, currentRoom=currentRoom, roomMessages=roomMessages)
+        except:
+            return render_template('room.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), messages=listOfMessages, listUsers=nestedListuser, loggedin=loggedin, currentRoom=currentRoom, roomMessages=roomMessages)
+    else: abort(404, message="User id does not exist")
 @app.route("/api/room/<string:message>/<int:room_id>/<int:user_id>/messages", methods=['GET', 'POST'])
 def messageclient(message, room_id, user_id):
     global nestedListuser
@@ -210,11 +215,10 @@ def fetchMessages(room_id, user_id):
     m = UserMessage(user_id, message)
     a = listRoom.index(room_id)
     listOfMessages = roomMessages[a]
-    out = ""
+    messagesarray = []
     for mes in listOfMessages:
-        out+=str(mes.message)+"\n"
-    print(out)
-    return out
+        messagesarray.append(mes.message)
+    return jsonify(messagesarray)
 
 if __name__ == "__main__":
     app.run(debug=True)
