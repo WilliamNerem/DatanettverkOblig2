@@ -228,13 +228,12 @@ def fetchAllMessages():
     for i in listRoom:
         allMessages.append([])
 
-    for i in range(len(allMessages)):
-        a = listOfMessages[i]
+    for i in allMessages:
+        for mes in roomMessages:
+            for j in mes:
+                allMessages[].append(j.message)
         #for j in range(len(listOfMessages)):
         #nestedList.append(a.message)
-        allMessages[i].append(a.message)
-    
-    print(str(listOfMessages))
     return jsonify(allMessages)
 
 if __name__ == "__main__":
