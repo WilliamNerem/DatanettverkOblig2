@@ -169,11 +169,13 @@ def messageclient(message, room_id, user_id):
     try:
         m = UserMessage(user_id, message)
         a = listRoom.index(room_id)
+        print(roomMessages[a])
         listOfMessages = roomMessages[a]
         listOfMessages.append(m)
-        return
+        return render_template('room.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), messages=listOfMessages, listUsers=nestedListuser, loggedin=loggedin, currentRoom=currentRoom, roomMessages=roomMessages)
     except:
-        return
+        return render_template('room.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), messages=listOfMessages, listUsers=nestedListuser, loggedin=loggedin, currentRoom=currentRoom, roomMessages=roomMessages)
+
 
 @app.route("/api/room/<int:room_id>/users", methods=['GET', 'POST'])
 def roomusers(room_id):
