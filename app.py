@@ -74,8 +74,8 @@ def addclientuser(name):
     user = UserModel(user_id=user_id.user_id, username=name)
     db.session.add(user)
     db.session.commit()
-    loggedin = str(user.user_id)
-    return loggedin
+    loggedin = user.user_id
+    return str(loggedin)
 
 @app.route("/api/userlogin/<int:user_id>")
 def login(user_id):
@@ -197,7 +197,11 @@ def fetchMessages(room_id, user_id):
     m = UserMessage(user_id, message)
     a = listRoom.index(room_id)
     listOfMessages = roomMessages[a]
-    return print(listOfMessages)
+    out = ""
+    for mes in listOfMessages:
+        out+=str(mes.message)+"\n"
+    print(out)
+    return out.object
 
 if __name__ == "__main__":
     app.run(debug=True)

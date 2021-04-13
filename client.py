@@ -21,13 +21,6 @@ user_id = requests.get(BASE + "api/users/" + curbot.__name__).json()
 print(user_id)
 requests.get(BASE + "api/rooms/" + curbot.__name__ +"s%20room")
 requests.post(BASE + "api/room/" + str(user_id) + "/users")
-requests.post(BASE + "api/room/hahahah/1/1/messages")
-requests.get(BASE + "api/room/1/1/fetch")
-'''for i in range(10):
-    try:
-        requests.post(BASE + "api/room/" + str(i) + "/users")
-        requests.post(BASE + "/api/room/messages/" + curbot())
-        requests.get(BASE + "/api/room/" + str(i) + "/" + user_id + "/fetch")
-    except:
-        break
-'''
+requests.post(BASE + "api/room/" + curbot() +"/1/" + str(user_id) + "/messages")
+message = requests.get(BASE + "api/room/1/" + str(user_id) + "/fetch").json()
+print(message)
