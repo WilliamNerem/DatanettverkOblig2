@@ -149,6 +149,16 @@ def deleteroom(room_id):
         return render_template('index.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), loggedin=loggedin, listRoomUser=listRoomUser)
     except: abort(404, message="Room ID is not valid")
 
+
+@app.route("/api/room/<int:room_id>/messages", methods=['GET'])
+def onlygetmessage(room_id):
+    global nestedListuser
+    global loggedin
+    global listOfMessages
+    a = listRoom.index(room_id)
+    listOfMessages = roomMessages[a]
+    return render_template('room.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), messages=listOfMessages, listUsers=nestedListuser, loggedin=loggedin, currentRoom=currentRoom, roomMessages=roomMessages)
+
 @app.route("/api/room/<int:room_id>/<int:user_id>/messages", methods=['GET', 'POST'])
 def message(room_id, user_id):
     global nestedListuser
