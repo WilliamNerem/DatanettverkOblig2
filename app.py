@@ -1,5 +1,5 @@
 from flask import Flask, request, render_template, jsonify
-from flask_restful import Api, Resource, reqparse, abort, fields, marshal_with
+from flask_restful import Api, Resource, reqparse, abort
 from flask_sqlalchemy import SQLAlchemy
 import sys
 
