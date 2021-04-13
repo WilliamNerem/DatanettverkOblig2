@@ -71,6 +71,8 @@ while True:
     newListOfMessages = requests.get(BASE + "api/room/fetch").json()
     listOfMessages
 
+    print(newListOfMessages)
+
     #if not len(str(newListOfRooms)) > len(str(listOfRooms)):
     try:
         for i in range(1):
