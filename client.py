@@ -44,8 +44,6 @@ for i in range(1, room_id+1):
 
 while serverOnline:
     msg = s.recv(1024).decode() #skal sende alle rom det er nye meldinger i
-    if msg != "conn?":
-        print(msg)
     '''
     for i in range(countRoomsJoined): #skal svare der det er nye meldinger
         requests.post(BASE + "api/room/" + curbot() +"/" + str(i) + "/" + str(user_id) + "/messages")
