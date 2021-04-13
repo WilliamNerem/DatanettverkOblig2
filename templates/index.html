@@ -39,7 +39,9 @@
                             <td>{{item.username}}</td>
                             <td>
                                 <form action="/api/user/{{item.user_id}}">
-                                    <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+                                    {% if item.user_id == loggedin %}
+                                        <button class="btn btn-danger btn-sm" type="submit">Delete</button>
+                                    {% endif %}
                                 </form>
                             </td>
                         </tr>
@@ -77,12 +79,18 @@
                             <td>{{item.roomname}}</td>
                             <td>
                                 <form action="/api/room/{{item.room_id}}">
-                                    <button class="btn btn-info btn-sm" type="submit">View</button>
+                                    {% if loggedin in listRoomUser[item.room_id - 1] %}
+                                        <button class="btn btn-info btn-sm" type="submit">View</button>
+                                    {% endif %}
                                 </form>
                             </td>
                             <td>
                                 <form action="/api/room/{{item.room_id}}/users">
-                                    <button class="btn btn-success btn-sm" type="submit">Join</button>
+                                    {% if loggedin not in listRoomUser[item.room_id - 1] %}
+                                        <button class="btn btn-success btn-sm" type="submit">Join</button>
+                                    {% elif loggedin in listRoomUser[item.room_id - 1] %}
+                                        <button class="btn btn-success btn-sm" type="submit" disabled>Join</button>
+                                    {% endif %}
                                 </form>
                             </td>
                             <td>
