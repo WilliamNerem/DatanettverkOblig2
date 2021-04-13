@@ -69,7 +69,6 @@
                             <th scope="col">ROOMNAME</th>
                             <th scope="col">VIEW</th>
                             <th scope="col">JOIN</th>
-                            <th scope="col">DELETE</th>
                         </tr>
                     </thead>
                     <tbody>
@@ -91,11 +90,6 @@
                                     {% elif loggedin in listRoomUser[item.room_id - 1] %}
                                         <button class="btn btn-success btn-sm" type="submit" disabled>Join</button>
                                     {% endif %}
-                                </form>
-                            </td>
-                            <td>
-                                <form action="/api/roomdelete/{{item.room_id}}">
-                                    <button class="btn btn-danger btn-sm" type="submit">Delete</button>
                                 </form>
                             </td>
                         </tr>

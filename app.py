@@ -135,23 +135,6 @@ def addclientroom(name):
 def getroom(room_id):
     currentRoom = room_id
     return render_template('room.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), listUsers=nestedListuser, messages=listOfMessages, loggedin=loggedin, currentRoom=currentRoom, roomMessages=roomMessages, listRoomUser=listRoomUser)
-    
-@app.route("/api/roomdelete/<int:room_id>")
-def deleteroom(room_id):
-    global loggedin
-    try:
-        #nestedListuser = listRoomUser[a]
-        #if nestedListuser:
-            #nestedListuser.remove(loggedin)
-        a = listRoom.index(room_id)
-        del listRoomUser[a]
-        del listRoom[a]
-        del roomMessages[a]
-        room = RoomModel.query.filter_by(room_id=room_id).delete()
-        db.session.commit()
-        return render_template('index.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), loggedin=loggedin, listRoomUser=listRoomUser)
-    except: abort(404, message="Room ID is not valid")
-
 
 @app.route("/api/room/<int:room_id>/messages", methods=['GET'])
 def onlygetmessage(room_id):
