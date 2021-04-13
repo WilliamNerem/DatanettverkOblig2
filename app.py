@@ -32,6 +32,7 @@ messages = []
 
 listRoom = []
 listRoomUser = []
+listRoomOwner = []
 nestedListuser = []
 loggedin = ''
 currentRoom = ''
@@ -97,6 +98,7 @@ def deleteuser(user_id):
 def addroom():
     global listRoom
     global listRoomUser
+    global listRoomOwner
     global nestedListuser
     global loggedin
     if request.method == 'POST':
