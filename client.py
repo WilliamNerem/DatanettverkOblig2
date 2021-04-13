@@ -4,9 +4,6 @@ import requests
 import json
 import socket
 
-#Når user er i et chat room og en "bot" kjøres, fucker det seg opp. I tillegg vil man få error om man prøver å sende en ny mld
-
-
 bots = (bot.alice, bot.bob, bot.dora, bot.chuck)
 curbot = None
 for b in bots:
@@ -15,7 +12,7 @@ for b in bots:
 
 BASE = "http://127.0.0.1:5000/"
 
-countRoomsJoined = 0    #holder styr på antall rom klienten er koblet til
+countRoomsJoined = 0 
 serverOnline = True
 
 user_id = requests.get(BASE + "api/users/" + curbot.__name__).json()
@@ -43,4 +40,4 @@ for i in range(1, room_id+1):
     print(out)
 
 while serverOnline:
-    msg = s.recv(1024).decode() #skal sende alle rom det er nye meldinger i
+    msg = s.recv(1024).decode()
