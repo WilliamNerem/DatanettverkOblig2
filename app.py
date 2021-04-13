@@ -157,7 +157,7 @@ def onlygetmessage(room_id):
     global listOfMessages
     a = listRoom.index(room_id)
     listOfMessages = roomMessages[a]
-    return render_template('room.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), messages=listOfMessages, listUsers=nestedListuser, loggedin=loggedin, currentRoom=currentRoom, roomMessages=roomMessages)
+    return render_template('chatroom.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), messages=listOfMessages, listUsers=nestedListuser, loggedin=loggedin, currentRoom=currentRoom, roomMessages=roomMessages)
 
 @app.route("/api/room/<int:room_id>/<int:user_id>/messages", methods=['GET', 'POST'])
 def message(room_id, user_id):
@@ -171,8 +171,8 @@ def message(room_id, user_id):
             a = listRoom.index(room_id)
             listOfMessages = roomMessages[a]
             listOfMessages.append(m)
-            return render_template('room.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), messages=listOfMessages, listUsers=nestedListuser, loggedin=loggedin, currentRoom=currentRoom, roomMessages=roomMessages)
-        return render_template('room.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), messages=listOfMessages, listUsers=nestedListuser, loggedin=loggedin, currentRoom=currentRoom, roomMessages=roomMessages)
+            return render_template('chatroom.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), messages=listOfMessages, listUsers=nestedListuser, loggedin=loggedin, currentRoom=currentRoom, roomMessages=roomMessages)
+        return render_template('chatroom.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), messages=listOfMessages, listUsers=nestedListuser, loggedin=loggedin, currentRoom=currentRoom, roomMessages=roomMessages)
     except:
         return render_template('room.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), messages=listOfMessages, listUsers=nestedListuser, loggedin=loggedin, currentRoom=currentRoom, roomMessages=roomMessages)
 @app.route("/api/room/<string:message>/<int:room_id>/<int:user_id>/messages", methods=['GET', 'POST'])

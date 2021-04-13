@@ -63,12 +63,16 @@
             </div>
         </div>
         <div class="row">
-            <form action="/api/room/{{currentRoom}}/messages" method="GET" class="w-100">
-                <div class="input-group-append">
-                    <button class="btn btn-info" type="submit">
-                        <img src="{{url_for('static', filename='baseline_chat_white_24dp.png')}}" alt="Go to Chatroom PNG" />
-                        Click here to start chatting
-                    </button>
+            <form action="/api/room/{{currentRoom}}/{{loggedin}}/messages" method="POST" class="w-100">
+                <div class="col-8 input-group mb-3">
+                    <input type="text" name="message" class="form-control" placeholder="Type a message..."
+                        aria-label="Message" aria-describedby="basic-addon2">
+                    <div class="input-group-append">
+                        <button class="btn btn-info" type="submit">
+                            Send
+                            <img src="{{url_for('static', filename='baseline_send_white_24dp.png')}}" alt="Send PNG" />
+                        </button>
+                    </div>
                 </div>
             </form>
         </div>
