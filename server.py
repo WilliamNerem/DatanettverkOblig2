@@ -40,16 +40,26 @@ def removeConnection(a):
     connectionsUser_id.pop(index)
     connections.remove(a)
 
-def sendNotification(a):
-    listRoomUsers = requests.get(BASE + "api/room/fetchRoomUsers").json
+def sendNotification(a, userId):
+    listRoomUsers = requests.get(BASE + "api/room/fetchRoomUsers").json()
+    
+    print(listRoomUsers)
+    
+    print(userId)
 
     for i in listRoomUsers:
-        print(i)
+        print("er her")
+        print(connectionsUser_id[userId])
+        if str(connectionsUser_id[userId]) in str(i):
+            connections[userId].send(a.encode())
+
+    '''for i in listRoomUsers:
         for j in range(len(connections)):
-            if connectionsUser_id[j] in i:
-                print("hei")
-                index = connectionsUser_id.index(j+1)
-                connections[index].send(a.encode())
+            if str(connectionsUser_id[userId]) in str(i):
+                print(i + "hei")
+                print(len(connections))
+                connections[j].send(a.encode())
+                break'''
 
 listenEmpty()
 listOfMessages = requests.get(BASE + "api/room/fetch").json()
@@ -64,9 +74,8 @@ while True:
     try:
         for i in range(10):
             if newListOfMessages[i] > listOfMessages[i]:
-                print(newListOfMessages[i])
-                print(listOfMessages[i])
-                sendNotification(str(i+1))
+                for j in range(len(connectionsUser_id)):
+                    sendNotification(str(i+1), j+1)
     except:
         pass
                 

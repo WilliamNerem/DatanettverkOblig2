@@ -16,13 +16,20 @@ for b in bots:
 BASE = "http://127.0.0.1:5000/"
 
 countRoomsJoined = 0    #holder styr på antall rom klienten er koblet til
+serverOnline = True
 
 user_id = requests.get(BASE + "api/users/" + curbot.__name__).json()
 
 s = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-s.connect(('localhost', 1234))
-s.send(str(user_id).encode())
+s.settimeout(0.00001)
 
+try:
+    s.connect(('localhost', 1234))
+    s.send(str(user_id).encode())
+except:
+    serverOnline = False
+    s.settimeout(socket.getdefaulttimeout())
+    
 room_id = requests.get(BASE + "api/rooms/" + curbot.__name__ +"s%20room").json()
 for i in range(1, room_id+1):
     requests.post(BASE + "api/room/" + str(i) + "/users")
@@ -34,7 +41,7 @@ for i in range(1, room_id+1):
         out += str(i) + "\n"
     print(out)
 
-while True:
+while serverOnline:
     msg = s.recv(1024).decode() #skal sende alle rom det er nye meldinger i
     if msg != "conn?":
         print(msg)
