@@ -50,7 +50,6 @@ class UserMessage:
 
 @app.route("/", methods=['GET', 'POST'])
 def index():
-    #listOfMessages.clear()
     return render_template('login.html', uservalues=UserModel.query.all())
 
 @app.route("/goback", methods=['GET', 'POST'])
