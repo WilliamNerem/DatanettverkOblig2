@@ -41,3 +41,5 @@ for i in range(1, room_id+1):
 
 while serverOnline:
     msg = s.recv(1024).decode()
+    if msg != "conn?":
+        print(msg)

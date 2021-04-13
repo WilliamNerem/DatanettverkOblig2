@@ -24,6 +24,7 @@ def listen():
             connections.append(conn)
             user_id = conn.recv(1024).decode()
             connectionsUser_id.append(user_id)
+            print(user_id + " connected")
         except socket.timeout:
             stopped = True
 
@@ -39,26 +40,33 @@ def removeConnection(a):
     connectionsUser_id.pop(index)
     connections.remove(a)
 
-def sendNotification(a, userId):
+def sendNotification(a):
     listRoomUsers = requests.get(BASE + "api/room/fetchRoomUsers").json()
+    
+    print(listRoomUsers)
 
     for i in listRoomUsers:
-        if str(connectionsUser_id[userId]) in str(i):
-            connections[userId].send(a.encode())
+        for j in range(len(connections)):
+            if str(connectionsUser_id[j]) in str(i):
+                print(i)
+                print(len(connections))
+                connections[j].send(a.encode())
+                break
 
 listenEmpty()
 listOfMessages = requests.get(BASE + "api/room/fetch").json()
+#listOfRooms = requests.get(BASE + "api/room/fetchRoom_idList").json()
 while True:
     listOfRooms = requests.get(BASE + "api/room/fetchRoom_idList").json()
+    #newListOfRooms = requests.get(BASE + "api/room/fetchRoom_idList").json()
     newListOfMessages = requests.get(BASE + "api/room/fetch").json()
     listOfMessages
 
-    print(newListOfMessages)
+    #if not len(str(newListOfRooms)) > len(str(listOfRooms)):
     try:
-        for i in range(1):
+        for i in range(10):
             if newListOfMessages[i] > listOfMessages[i]:
-                for j in range(len(connectionsUser_id)):
-                    sendNotification(str(i+1), j)
+                sendNotification(str(i+1))
     except:
         pass
                 
