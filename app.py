@@ -74,7 +74,7 @@ def addclientuser(name):
     user = UserModel(user_id=user_id.user_id, username=name)
     db.session.add(user)
     db.session.commit()
-    loggedin = user.user_id
+    loggedin = str(user.user_id)
     return loggedin
 
 @app.route("/api/userlogin/<int:user_id>")
@@ -169,7 +169,6 @@ def messageclient(message, room_id, user_id):
     try:
         m = UserMessage(user_id, message)
         a = listRoom.index(room_id)
-        print(roomMessages[a])
         listOfMessages = roomMessages[a]
         listOfMessages.append(m)
         return render_template('room.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), messages=listOfMessages, listUsers=nestedListuser, loggedin=loggedin, currentRoom=currentRoom, roomMessages=roomMessages)
