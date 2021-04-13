@@ -28,8 +28,9 @@ try:
     s.send(str(user_id).encode())
 except:
     serverOnline = False
-    s.settimeout(socket.getdefaulttimeout())
     
+
+s.settimeout(socket.getdefaulttimeout())    
 room_id = requests.get(BASE + "api/rooms/" + curbot.__name__ +"s%20room").json()
 for i in range(1, room_id+1):
     requests.post(BASE + "api/room/" + str(i) + "/users")
