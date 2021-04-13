@@ -125,7 +125,7 @@ def addclientroom(name):
     listRoom.append(room.room_id)
     listRoomUser.append([])
     roomMessages.append([])
-    return render_template('index.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), loggedin=loggedin, listRoomUser=listRoomUser)
+    return str(room.room_id)
 
 
 @app.route("/api/room/<int:room_id>", methods=['GET'])

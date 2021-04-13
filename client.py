@@ -24,5 +24,5 @@ print(room_id)
 for i in range(1, room_id+1):
     requests.post(BASE + "api/room/" + str(i) + "/users")
     requests.post(BASE + "api/room/" + curbot() +"/" + str(i) + "/" + str(user_id) + "/messages")
-    message = requests.get(BASE + "api/room/" + str(i) + "/" + str(user_id) + "/fetch").json()
-    print(message)
+    #message = requests.get(BASE + "api/room/" + str(i) + "/" + str(user_id) + "/fetch").json()
+    #print(message)
