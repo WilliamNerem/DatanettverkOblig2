@@ -40,15 +40,38 @@ def removeConnection(a):
     connectionsUser_id.pop(index)
     connections.remove(a)
 
-def sendNotification():
-    for i in range(countRooms):
-        messageArray = requests.get(BASE + "/api/room/" + str(i) + "/fetch")
+def sendNotification(a):
+    listRoomUsers = requests.get(BASE + "api/room/fetchRoomUsers").json
+
+    for i in listRoomUsers:
+        print(i)
+        for j in range(len(connections)):
+            if connectionsUser_id[j] in i:
+                print("hei")
+                index = connectionsUser_id.index(j+1)
+                connections[index].send(a.encode())
 
 listenEmpty()
+listOfMessages = requests.get(BASE + "api/room/fetch").json()
+#listOfRooms = requests.get(BASE + "api/room/fetchRoom_idList").json()
 while True:
+    listOfRooms = requests.get(BASE + "api/room/fetchRoom_idList").json()
+    #newListOfRooms = requests.get(BASE + "api/room/fetchRoom_idList").json()
+    newListOfMessages = requests.get(BASE + "api/room/fetch").json()
+    listOfMessages
+
+    #if not len(str(newListOfRooms)) > len(str(listOfRooms)):
+    try:
+        for i in range(10):
+            if newListOfMessages[i] > listOfMessages[i]:
+                print(newListOfMessages[i])
+                print(listOfMessages[i])
+                sendNotification(str(i+1))
+    except:
+        pass
+                
     s.settimeout(0.00001)
-    countRooms = requests.get(BASE + "/api/room/fetch").json()
-    print(countRooms)
+    listOfMessages = requests.get(BASE + "api/room/fetch").json()
     listen()
     checkIfConnected()
     if len(connections) == 0:

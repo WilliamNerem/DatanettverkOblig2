@@ -233,5 +233,13 @@ def fetchAllMessages():
             allMessages[roomMessages.index(mes)].append(j.message)
     return jsonify(allMessages)
 
+@app.route("/api/room/fetchRoom_idList", methods=['GET'])
+def fetchlistOfRoom_id():
+    return jsonify(listRoom)
+
+@app.route("/api/room/fetchRoomUsers", methods=['GET'])
+def fetchRoomUsers():
+    return jsonify(listRoomUser)
+
 if __name__ == "__main__":
     app.run(debug=True)
