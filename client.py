@@ -1,5 +1,3 @@
-import urllib.request
-import urllib.error
 import sys
 import bot
 import requests
@@ -38,11 +36,11 @@ for i in range(1, room_id+1):
 
 while True:
     msg = s.recv(1024).decode() #skal sende alle rom det er nye meldinger i
-    
+    '''
     for i in range(countRoomsJoined): #skal svare der det er nye meldinger
         requests.post(BASE + "api/room/" + curbot() +"/" + str(i) + "/" + str(user_id) + "/messages")
         message = requests.get(BASE + "api/room/" + str(i) + "/" + str(user_id) + "/fetch").json()
         out = "Messages in room " + str(i) + ":\n"
         for i in message:
             out += str(i) + "\n"
-        print(out)
+        print(out)'''

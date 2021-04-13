@@ -180,6 +180,7 @@ def message(room_id, user_id):
         except:
             return render_template('room.html', uservalues=UserModel.query.all(), roomvalues=RoomModel.query.all(), messages=listOfMessages, listUsers=nestedListuser, loggedin=loggedin, currentRoom=currentRoom, roomMessages=roomMessages)
     else: abort(404, message="User id does not exist")
+
 @app.route("/api/room/<string:message>/<int:room_id>/<int:user_id>/messages", methods=['GET', 'POST'])
 def messageclient(message, room_id, user_id):
     global nestedListuser
@@ -219,6 +220,22 @@ def fetchMessages(room_id, user_id):
     for mes in listOfMessages:
         messagesarray.append(mes.message)
     return jsonify(messagesarray)
+
+@app.route("/api/room/fetch", methods=['GET'])
+def fetchAllMessages():
+    allMessages = []
+    nestedMessages = []
+    for i in listRoom:
+        allMessages.append([])
+
+    for i in range(len(allMessages)):
+        a = listOfMessages[i]
+        #for j in range(len(listOfMessages)):
+        #nestedList.append(a.message)
+        allMessages[i].append(a.message)
+    
+    print(str(listOfMessages))
+    return jsonify(allMessages)
 
 if __name__ == "__main__":
     app.run(debug=True)
