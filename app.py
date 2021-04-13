@@ -121,7 +121,6 @@ def addclientroom(name):
     global listRoom
     global listRoomUser
     room_id=RoomModel(roomname=name)
-    print(room_id.roomname)
     room = RoomModel(room_id=room_id.room_id, roomname=name)
     db.session.add(room)
     db.session.commit()
